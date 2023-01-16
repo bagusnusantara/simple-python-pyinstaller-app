@@ -15,9 +15,8 @@ node {
     stage('Manual Approval') {
         agent none
         steps {
-            script {
-                def deploymentDelay = input id: 'Deploy', message: 'Lanjutkan ke tahap Deploy?', submitter: 'dicoding')]
-                sleep time: 1, unit: 'MINUTES'
+        script {
+            input message: 'Lanjutkan ke tahap Deploy?'
             }
         }
     }
@@ -28,7 +27,7 @@ node {
             sh 'docker run --rm -v /var/jenkins_home/simple-python-pyinstaller-app/sources:/src cdrx/pyinstaller-linux:python2 \'pyinstaller -F add2vals.py\''
             archiveArtifacts artifacts: 'sources/add2vals.py', followSymlinks: false
             sh 'docker run --rm -v /var/jenkins_home/simple-python-pyinstaller-app/sources:/src cdrx/pyinstaller-linux:python2 \'rm -rf build dist\''
-            }
+            sleep time: 1, unit: 'MINUTES'
         }
     }
 }
